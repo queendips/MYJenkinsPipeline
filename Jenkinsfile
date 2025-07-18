@@ -1,51 +1,36 @@
 pipeline {
     agent any
 
-    environment {
-        NAME = 'admin'        
-        LOCATION = 'India'    
+    parameters {
+        string(name: 'USERNAME', defaultValue: 'admin', description: 'Enter your username')
+        booleanParam(name: 'RUN_TESTS', defaultValue: true, description: 'Run tests?')
+        choice(name: 'ENVIRONMENT', choices: ['dev', 'stage', 'prod'], description: 'Select environment')
     }
 
     stages {
-        stage('Build') {
+        stage('Input Summary') {
             steps {
-                echo '🔧 Building...'
+                echo "👤 Username: ${params.USERNAME}"
+                echo "🧪 Run Tests: ${params.RUN_TESTS}"
+                echo "🌐 Environment: ${params.ENVIRONMENT}"
             }
         }
 
-        stage('Test') {
+        stage('Conditional Testing') {
+            when {
+                expression { return params.RUN_TESTS }
+            }
             steps {
-                echo '✅ Testing...'
+                echo '✅ Running tests as requested...'
             }
         }
 
-        stage('Deploy') {
+        stage('Deployment') {
             steps {
-                echo '🚀 Deploying...'
-            }
-        }
-
-        stage('Environment Variable') {
-            steps {
-                echo "👤 Name: ${env.NAME}"
-                echo "🌍 Location: ${env.LOCATION}"
-                echo "🆔 Build ID: ${env.BUILD_ID}"
-                sh '''
-                    echo "=== Shell Output ==="
-                    echo "Name from shell: $NAME"
-                    echo "Location from shell: $LOCATION"
-                    echo "Jenkins Build ID: $BUILD_ID"
-                '''
+                echo "🚀 Deploying to ${params.ENVIRONMENT} environment..."
             }
         }
     }
 
-    post {
-        success {
-            echo '✅ Pipeline completed successfully!'
-        }
-        failure {
-            echo '❌ Pipeline failed.'
-        }
-    }
+    
 }
