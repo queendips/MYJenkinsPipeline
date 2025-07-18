@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        name 'admin'
-    }
+    VARIABLE_NAME = 'value'
+}
 
     stages {
         stage('Build') {
