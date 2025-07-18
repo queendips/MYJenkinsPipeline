@@ -2,30 +2,40 @@ pipeline {
     agent any
 
     environment {
-    VARIABLE_NAME = 'value'
-}
+        NAME = 'admin'        // Define a meaningful environment variable
+        LOCATION = 'India'    // Another example
+    }
 
     stages {
         stage('Build') {
             steps {
-                echo 'Building...'
+                echo '🔧 Building...'
             }
         }
+
         stage('Test') {
             steps {
-                echo 'Testing...'
+                echo '✅ Testing...'
             }
         }
+
         stage('Deploy') {
             steps {
-                echo 'Deploying...'
+                echo '🚀 Deploying...'
             }
         }
+
         stage('Environment Variable') {
             steps {
-                echo "name : ${name}"
-                echo "Build ID: ${BUILD_ID}"
-                sh 'echo "The Jenkins build ID is: $BUILD_ID"'
+                echo "👤 Name: ${env.NAME}"
+                echo "🌍 Location: ${env.LOCATION}"
+                echo "🆔 Build ID: ${env.BUILD_ID}"
+                sh '''
+                    echo "=== Shell Output ==="
+                    echo "Name from shell: $NAME"
+                    echo "Location from shell: $LOCATION"
+                    echo "Jenkins Build ID: $BUILD_ID"
+                '''
             }
         }
     }
