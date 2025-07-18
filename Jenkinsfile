@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        NAME = 'admin'        // Define a meaningful environment variable
-        LOCATION = 'India'    // Another example
+        NAME = 'admin'        
+        LOCATION = 'India'    
     }
 
     stages {
